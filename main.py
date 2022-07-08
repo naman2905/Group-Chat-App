@@ -1,6 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
-from routers import authentication, user, groups
+import authentication, user, groups
 
 app = FastAPI()
 
