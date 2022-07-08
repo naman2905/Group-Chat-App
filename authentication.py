@@ -2,6 +2,7 @@ import datetime
 from decouple import config
 from pymongo import MongoClient
 from fastapi import APIRouter , Request
+import re
 
 router = APIRouter(
     prefix='/auth',
@@ -22,23 +23,24 @@ async def register_user(request:Request):
         data = await request.json()
         data["created_at"]=datetime.datetime.now()
         data["updated_at"]=datetime.datetime.now()
+        data["is_loggedin"] = False
         existing_user = mydb.registered_user.find_one({"mobile":data['mobile']})
         if existing_user:
             response = {   
-                "msg":"User already exists",
+                "message":"User already exists",
                 "success":True
                 }
             return response
         mydb.registered_user.insert(data)
         response = {
-            "msg":"User registered successfully",
+            "message":"User registered successfully",
             "success":True
         }
         return response
         
     except Exception as e:
         response = {
-            "msg":str(e),
+            "message":str(e),
             "success":False 
         }
         return response
