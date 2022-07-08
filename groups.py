@@ -16,7 +16,7 @@ mydb=client[config("DB_NAME")]
 
 # Group CRUD APIs
 
-@router.post('/create_group')
+@router.post('/create-group')
 async def create_grp(request:Request):
     try:
         data = await request.json()
@@ -56,7 +56,7 @@ async def create_grp(request:Request):
             }
         return response
 
-@router.delete('/delete_group')
+@router.delete('/delete-group')
 def delete_group(request:Request , group_id:str = None):
     try:
         group_id = request.query_params.get("group_id")
@@ -85,7 +85,7 @@ def delete_group(request:Request , group_id:str = None):
             }
         return response
 
-@router.patch('/update_group_details')
+@router.patch('/update-group')
 async def update_group(request:Request , group_id:str= None):
     try:
         group_id = request.query_params.get("group_id")
@@ -121,14 +121,14 @@ async def update_group(request:Request , group_id:str= None):
 # Group Members APIs
 
 @router.post('/add-member')
-async def create_grp(request:Request):
+async def create_group(request:Request):
     try:
         data = await request.json()
         members = data.get("members" , "")
         group_id = data.get("group_id" , "")
         if group_id and members:
             existing_members_list = mydb.groups.find_one({"_id":ObjectId(group_id)} , {"members":1})
-            
+
             duplicate_members_list = []
             for member in members:
                 if member in existing_members_list['members']:
@@ -232,7 +232,7 @@ def get_user_list(request:Request , group_id:str = None):
             }
         return response
 
-@router.get('/search_member')
+@router.get('/search-member')
 def search_member(request:Request , mobile:int=None , group_id:str=None):
     try:
         mobile = int(request.query_params.get("mobile"))
@@ -269,7 +269,7 @@ def search_member(request:Request , mobile:int=None , group_id:str=None):
 
 # Group Chat APIs
 
-@router.post('/send_messages')
+@router.post('/send-messages')
 async def send_msgs(request:Request):
     try:
         data = await request.json()
