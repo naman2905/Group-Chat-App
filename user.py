@@ -20,19 +20,19 @@ async def create_user(request:Request):
     try:    
         data = await request.json()
         if data is None:
-            return {"msg":"provide data" , "success":True}
+            return {"message":"provide data" , "success":True}
         data["created_at"]=datetime.datetime.now()
         data["updated_at"]=datetime.datetime.now()
         mydb.user.insert(data)
         response = {
-            "msg":"user created successfully",
+            "message":"user created successfully",
             "success":True
         }
         return response
         
     except Exception as e:
         response = {
-            "msg":str(e),
+            "message":str(e),
             "success":False 
         }
         return response
@@ -47,24 +47,24 @@ async def update_user(request:Request , user_id:str=None):
             updated_user = mydb.user.find_one_and_update({"_id":ObjectId(user_id)} , {"$set":data})
             if updated_user:
                 response = {
-                    "msg":"Data updated successfully",
+                    "message":"Data updated successfully",
                     "data":data, 
                     "success":True
                 }
             else:
                 response = {
-                    "msg":"User not found.",
+                    "message":"User not found.",
                     "status":True
                 }
         else:
             response = {
-            "msg":"User does not exists/ Incorrect User ID", 
+            "message":"User does not exists/ Incorrect User ID", 
             "success":True
         }
         return response
     except Exception as e:
         response = {
-            "msg":str(e),
+            "message":str(e),
             "success":False 
         }
         return response
@@ -77,23 +77,23 @@ def delete_user(request:Request , user_id:str=None):
             deleted_user = mydb.user.find_one_and_delete({"_id":ObjectId(user_id)})
             if deleted_user:
                 response = {
-                    "msg":"Deleted user successfully.",
+                    "message":"Deleted user successfully.",
                     "status":True
                 }
             else:
                 response = {
-                    "msg":"User not found.",
+                    "message":"User not found.",
                     "status":True
                 }
         else:
             response = {
-                "msg":"Please provide user id",
+                "message":"Please provide user id",
                 "status":True
             }
         return response
     except Exception as e:
         response = {
-            "msg":str(e),
+            "message":str(e),
             "status":True
             }
         return response
